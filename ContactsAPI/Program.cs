@@ -3,16 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
-
-// Add services to the container.
-
-//builder.Services.AddSpaStaticFiles(opt =>
-//{
-//    opt.RootPath = "ClientApp/build";
-//});
-//builder.Services.AddSpaStaticFiles();
-
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
@@ -34,20 +24,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-//if (!app.Environment.IsDevelopment())
-//{
-//    app.UseSpaStaticFiles();
-//}
 if (!app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-
+app.MapControllers();
 
 app.UseSpa(spa =>
 {
