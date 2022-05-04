@@ -5,7 +5,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddSpaStaticFiles(opt =>
+{
+    opt.RootPath = "ClientApp/build";
+});
+
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
@@ -25,18 +29,31 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseHsts();
 
 }
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseRouting();
+app.UseStaticFiles();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseSpaStaticFiles();
+}
 
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
-app.MapFallbackToFile("index.html"); ;
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "ClientApp";
+
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseCors(option => option.AllowAnyOrigin());
+        spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+    }
+});
 
 app.Run();
