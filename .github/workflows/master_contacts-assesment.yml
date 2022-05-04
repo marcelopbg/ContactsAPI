@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_60c002211d06495488e8f70a3fb4fddb }}/marcelopbg/contacts-list:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_60c002211d06495488e8f70a3fb4fddb }}/contacts-list:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -48,4 +48,4 @@ jobs:
         app-name: 'contacts-assesment'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0779fed0a9c04e188750fca9109ecd15 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_60c002211d06495488e8f70a3fb4fddb }}/marcelopbg/contacts-list:${{ github.sha }}'
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_60c002211d06495488e8f70a3fb4fddb }}/contacts-list:${{ github.sha }}'
