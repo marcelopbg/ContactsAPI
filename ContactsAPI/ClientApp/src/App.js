@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import PersonForm from './components/PersonForm';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './custom.css'
+import { Container } from 'reactstrap';
+import PersonList from './components/PersonList';
+import 'react-toastify/dist/ReactToastify.css';
+
+export default class App extends Component {
+  static displayName = App.name;
+
+  render() {
+    return (
+
+      <BrowserRouter>
+        <ToastContainer />
+        <Container className='py-4'>
+          <Routes>
+            <Route path="/" element={<PersonList />} />
+            <Route path="create-person" element={<PersonForm />} />
+          </Routes>
+        </Container>
+      </BrowserRouter>
+    );
+  }
 }
-
-export default App;

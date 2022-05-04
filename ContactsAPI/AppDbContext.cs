@@ -1,7 +1,7 @@
 ﻿using ContactsAPI.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace ContactsAPÌ;
+namespace ContactsAPI;
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions options) : base(options)

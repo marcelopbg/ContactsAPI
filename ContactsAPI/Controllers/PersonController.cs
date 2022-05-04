@@ -1,4 +1,4 @@
-﻿using ContactsAPÌ;
+﻿using ContactsAPI;
 using ContactsAPI.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

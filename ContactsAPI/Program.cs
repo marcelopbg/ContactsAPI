@@ -1,14 +1,17 @@
-using ContactsAPÌ;
+using ContactsAPI;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllersWithViews();
+
 // Add services to the container.
 
-builder.Services.AddSpaStaticFiles(opt =>
-{
-    opt.RootPath = "ClientApp/build";
-});
+//builder.Services.AddSpaStaticFiles(opt =>
+//{
+//    opt.RootPath = "ClientApp/build";
+//});
+//builder.Services.AddSpaStaticFiles();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -16,14 +19,9 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("Contacts"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -31,19 +29,25 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 
 }
+
 app.UseHttpsRedirection();
-app.UseRouting();
 app.UseStaticFiles();
+app.UseRouting();
+
+//if (!app.Environment.IsDevelopment())
+//{
+//    app.UseSpaStaticFiles();
+//}
 if (!app.Environment.IsDevelopment())
 {
-    app.UseSpaStaticFiles();
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action=Index}/{id?}");
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
 
 app.UseSpa(spa =>
 {
@@ -55,5 +59,6 @@ app.UseSpa(spa =>
         spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
     }
 });
+app.MapFallbackToFile("index.html");
 
 app.Run();
